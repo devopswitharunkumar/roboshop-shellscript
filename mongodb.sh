@@ -39,7 +39,7 @@ systemctl enable mongod &>> $LOG_FILE
 
 validate $? "Enabling mongodb"
 
-systemctl start mongod -y &>> $LOG_FILE
+systemctl start mongod &>> $LOG_FILE
 
 validate $? "Starting mongodb"
 
@@ -47,6 +47,6 @@ sed -i 's/127.0.0.1/0.0.0.0/g' /etc/mongod.conf
 
 validate $? "Remote access to mongodb"
 
-systemctl restart momgod -y 
+systemctl restart momgod 
 
 validate $? "Mongodb Restart"

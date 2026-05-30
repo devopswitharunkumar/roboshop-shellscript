@@ -49,8 +49,11 @@ then
 else
     echo -e "$Y ERROR :: User already exists .. Skipping $N"
 fi
+s if already exist it wi
 
-mkdir /app &>> $LOG_FILE
+#-p means if already folder exists it will not throw error..it will skip
+
+mkdir -p /app &>> $LOG_FILE
 
 validate $? "Creating new directory"
 

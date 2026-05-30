@@ -13,80 +13,82 @@ LOG_FILE="/tmp/$0-$Timestamp.log"
 
 if [ $ID -ne 0 ]
 then
-    echo "ERROR :: You are not a root user pls take access"
+    echo -e "$R ERROR :: You are not a root user pls take access $N"
     exit 1
 else
-    echo "You are a root user pls proceed"
+    echo -e "$G You are a root user pls proceed $N"
 fi
 
 validate(){
     if [ $1 -ne 0 ]
     then
-        echo "ERROR :: $2 ... Failed"
+        echo -e "$R ERROR :: $2 ... Failed $N"
         exit 1
     else
-        echo "$2 ... Success"
+        echo "$G $2 ... Success $N"
     fi
 }
 
-dnf module dilesab nodejs -y
+dnf module disable nodejs -y &>> $LOG_FILE
 
 validate $1 "Nodejs module disabling default version"
 
-dnf module enable nodejs:18 -y
+dnf module enable nodejs:18 -y &>> $LOG_FILE
 
 validate $? "Nodejs Required version enabling"
 
-dnf install nodejs -y
+dnf install nodejs -y &>> $LOG_FILE
 
 validate $? "Installation of Nodejs"
 
-useradd roboshop
+useradd roboshop &>> $LOG_FILE
 
 validate $? "Creating new user"
 
-mkdir /app
+mkdir /app &>> $LOG_FILE
 
 validate $? "Creating new directory"
 
-curl -o /tmp/catalogue.zip https://roboshop-builds.s3.amazonaws.com/catalogue.zip
+curl -o /tmp/catalogue.zip https://roboshop-builds.s3.amazonaws.com/catalogue.zip &>> $LOG_FILE
 
 validate $? "Downloading a catalogue zip file from browser"
 
-cd /app
+cd /app &>> $LOG_FILE
 
 validate $? "Changing loc to new directory"
 
-unzip /tmp/catalogue.zip
+unzip /tmp/catalogue.zip &>> $LOG_FILE
 
 validate $? "Unzipping catalogue application"
 
-npm install
+npm install &>> $LOG_FILE
 
 validate $? "Installing nodejs dependencies"
 
-cp /home/centos/roboshop-shellscript/catalogue.service /etc/systemd/system/catalogue.service
+cp /home/centos/roboshop-shellscript/catalogue.service /etc/systemd/system/catalogue.service &>> $LOG_FILE
 
 validate $? "Copying the service file to systemd path"
 
-systemctl daemon-reload
+systemctl daemon-reload &>> $LOG_FILE
 
 validate $? "Loading service"
 
-systemctl enable catalogue
+systemctl enable catalogue &>> $LOG_FILE
 
 validate $? "Enable catalogue"
 
-systemctl start catalogue 
+systemctl start catalogue  &>> $LOG_FILE
 
 validate $? "Starting catalogue service"
 
-cp /home/centos/roboshop-shellscript/mongo.repo /etc/yum.repos.d/mongo.repo
+cp /home/centos/roboshop-shellscript/mongo.repo /etc/yum.repos.d/mongo.repo &>> $LOG_FILE
 
 validate $? "Copying mongodb repo"
 
-systemctl install mongodb-org-shell -y 
+systemctl install mongodb-org-shell -y  &>> $LOG_FILE
 
 validate $? "Installing mongodb client"
 
-mong --host $MONGODB_HOST </app/schema/catalogue.js
+mongo --host $MONGODB_HOST </app/schema/catalogue.js &>> $LOG_FILE
+
+validate $? "data loaded to catalogue service through mongo client"

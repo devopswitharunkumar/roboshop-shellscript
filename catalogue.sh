@@ -92,7 +92,7 @@ cp /home/centos/roboshop-shellscript/mongo.repo /etc/yum.repos.d/mongo.repo &>> 
 
 validate $? "Copying mongodb repo"
 
-systemctl install mongodb-org-shell -y  &>> $LOG_FILE
+dnf install mongodb-org-shell -y  &>> $LOG_FILE
 
 validate $? "Installing mongodb client"
 

@@ -25,7 +25,7 @@ validate(){
         echo -e "$R ERROR :: $2 ... Failed $N"
         exit 1
     else
-        echo "$G $2 ... Success $N"
+        echo -e "$G $2 ... Success $N"
     fi
 }
 

@@ -49,7 +49,6 @@ then
 else
     echo -e "$Y ERROR :: User already exists .. Skipping $N"
 fi
-s if already exist it wi
 
 #-p means if already folder exists it will not throw error..it will skip
 

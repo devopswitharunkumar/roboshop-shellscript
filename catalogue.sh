@@ -64,7 +64,7 @@ cd /app &>> $LOG_FILE
 
 validate $? "Changing loc to new directory"
 
-unzip /tmp/catalogue.zip &>> $LOG_FILE
+unzip -o /tmp/catalogue.zip &>> $LOG_FILE
 
 validate $? "Unzipping catalogue application"
 

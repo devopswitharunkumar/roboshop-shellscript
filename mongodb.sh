@@ -22,6 +22,7 @@ validate(){
     if [ $1 -ne 0 ]
     then 
         echo -e "$R ERROR :: $2 ... Failed $N"
+        exit 1
     else
         echo -e "$G $2 ... Successful $N"
     fi

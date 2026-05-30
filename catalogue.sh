@@ -41,9 +41,14 @@ dnf install nodejs -y &>> $LOG_FILE
 
 validate $? "Installation of Nodejs"
 
-useradd roboshop &>> $LOG_FILE
-
-validate $? "Creating new user"
+id roboshop
+if [ $? -ne 0]
+then 
+    useradd roboshop &>> $LOG_FILE
+    validate $? "Creating new user"
+else
+    echo -e "$Y ERROR :: User already exists .. Skipping $N"
+fi
 
 mkdir /app &>> $LOG_FILE
 
